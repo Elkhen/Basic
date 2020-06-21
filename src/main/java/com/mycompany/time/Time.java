@@ -34,25 +34,28 @@ public class Time {
                 Matcher m4 = p4.matcher(zonePlus);
                 int amount = 0;
                 String zone = "";
+                int changer = 0;
                 if (m1.find()) {
                     amount = Integer.valueOf(m1.group(1));
+                    changer = 1;
                 }
                 if (m2.find()) {
                     zone = m2.group(1).toUpperCase();
                 }
                 if (m3.find()) {
+                    changer = 2;
                     amount = Integer.valueOf(m3.group(1));
                 }
                 if (m4.find()) {
                     zone = m4.group(1).toUpperCase();
                 }
-                if (amount > 0) {
+                if (changer == 1) {
                     DateTime time = DateTime.parse(JsonParser.parseString(
                             Unirest.get("http://worldtimeapi.org/api/timezone/" + zone).asJson().getBody().toString())
                             .getAsJsonObject().get("datetime").getAsString());
                     System.out.println("Your current time according to my computer is : " + new DateTime(System.currentTimeMillis()).toLocalTime().plusHours(amount));
                     System.out.println("Your current time according to supposedly atomic clock based api is: " + time.toLocalTime().plusHours(amount));
-                } else {
+                } else if (changer == 2) {
                     DateTime time = DateTime.parse(JsonParser.parseString(
                             Unirest.get("http://worldtimeapi.org/api/timezone/" + zone).asJson().getBody().toString())
                             .getAsJsonObject().get("datetime").getAsString());
