@@ -2,6 +2,7 @@ package com.mycompany.time;
 
 import java.util.*;
 import java.util.regex.*;
+import java.util.stream.*;
 import com.google.gson.*;
 import kong.unirest.*;
 import org.joda.time.DateTime;
@@ -14,14 +15,8 @@ public class Time {
 
     public static void main(String[] args) throws IOException {
         Scanner read = new Scanner(System.in);
-        
-        Document doc = Jsoup.connect("https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations").get();
-        Element table = doc.getElementsByTag("tbody").eq(1).first();
-        System.out.print(table);
 
-        
-        
-        /*while (true) {
+        while (true) {
             System.out.println("Enter time zone+hours(empty to exit): ");
             String zonePlus = read.nextLine();
 
@@ -55,8 +50,35 @@ public class Time {
                 System.out.println("Your current time according to supposedly atomic clock based api is: " + time.toLocalTime());
 
             }
-        }*/
+        }
+    }
 
+    public static boolean sameName(ArrayList<TimeZones> list, TimeZones elt) {
+        for (TimeZones t : list) {
+            if (t.getName().equals(elt.getName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static ArrayList<TimeZones> getTimeZones() {
+        ArrayList<TimeZones> list = new ArrayList<>();
+        Document doc = Jsoup.connect("https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations").get();
+        Elements table = doc.getElementsByTag("td");
+
+        for (Element e : table) {
+            if (e.text().length() >= 3 && e.text().length() <= 5) {
+                TimeZones t = new TimeZones(e.text(), e.nextElementSibling().nextElementSibling().text());
+                if (t.getOffset().length() > 9) {
+                    t.setOffset(t.getOffset().substring(0, 9));
+                }
+                if (!sameName(list, t)) {
+                    list.add(t);
+                }
+            }
+        }
+        return list;
     }
 
 }
