@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class Time {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         Scanner read = new Scanner(System.in);
 
         while (true) {
@@ -62,7 +62,7 @@ public class Time {
         return false;
     }
 
-    public static ArrayList<TimeZones> getTimeZones() {
+    public static ArrayList<TimeZones> getTimeZones() throws IOException {
         ArrayList<TimeZones> list = new ArrayList<>();
         Document doc = Jsoup.connect("https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations").get();
         Elements table = doc.getElementsByTag("td");
