@@ -1,2 +1,3 @@
-com/mycompany/time/TimeZones.class
+com/mycompany/time/TimeZoneFinder.class
+com/mycompany/time/TimeZoneElement.class
 com/mycompany/time/TimeZoneSeparator.class
