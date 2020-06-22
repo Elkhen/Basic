@@ -27,14 +27,12 @@ public class Time {
                 DateTime time = DateTime.parse(JsonParser.parseString(
                         Unirest.get("http://worldtimeapi.org/api/timezone/" + "etc/UTC").asJson().getBody().toString())
                         .getAsJsonObject().get("datetime").getAsString());
-                System.out.println("Your current time according to my computer is : " + new DateTime(System.currentTimeMillis()).toLocalTime());
                 System.out.println("Your current time according to supposedly atomic clock based api is: " + time.toLocalTime().plusHours(sep.getTimeZoneElement().getOffset()+sep2.getTimeZoneElement().getOffset()));
             } else {
                 TimeZoneSeparator sep = new TimeZoneSeparator(find.find(zonePlus).getUtcOffset());
                 DateTime time = DateTime.parse(JsonParser.parseString(
                         Unirest.get("http://worldtimeapi.org/api/timezone/" + "etc/UTC").asJson().getBody().toString())
                         .getAsJsonObject().get("datetime").getAsString());
-                System.out.println("Your current time according to my computer is : " + new DateTime(System.currentTimeMillis()).toLocalTime());
                 System.out.println("Your current time according to supposedly atomic clock based api is: " + time.toLocalTime().plusHours(sep.getTimeZoneElement().getOffset()));
 
             }
