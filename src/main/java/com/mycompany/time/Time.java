@@ -23,7 +23,6 @@ public class Time {
 
             if (zonePlus.matches(".*(\\+|-).*")) {
                 TimeZoneSeparator sep = new TimeZoneSeparator(zonePlus);
-                System.out.print(sep.getTimeZoneElement());
                 TimeZoneSeparator sep2 = new TimeZoneSeparator(find.find(sep.getTimeZoneElement().getTimezone()).getUtcOffset());
                 DateTime time = DateTime.parse(JsonParser.parseString(
                         Unirest.get("http://worldtimeapi.org/api/timezone/" + "etc/UTC").asJson().getBody().toString())
