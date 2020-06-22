@@ -1,11 +1,11 @@
 
 package com.mycompany.time;
 
-public class TimeZones {
+public class TimeZoneElement {
     private String name;
     private String offset;
     
-    public TimeZones(String name, String offset) {
+    public TimeZoneElement(String name, String offset) {
         this.name = name;
         this.offset = offset;
     }

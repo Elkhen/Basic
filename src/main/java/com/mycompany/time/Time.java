@@ -24,30 +24,19 @@ public class Time {
                 break;
             }
             if (zonePlus.matches(".*\\d.*")) {
-                Pattern p1 = Pattern.compile("\\+\\s*(\\d*)\\D?");
+                Pattern p1 = Pattern.compile("(\\+|-|\\u00B1)\\s*(\\d*)\\D?");
                 Matcher m1 = p1.matcher(zonePlus);
-                Pattern p2 = Pattern.compile("(\\S+)\\s*\\+");
+                Pattern p2 = Pattern.compile("(\\S+)\\s*(\\+|-|\\u00B1)");
                 Matcher m2 = p2.matcher(zonePlus);
-                Pattern p3 = Pattern.compile("-\\s*(\\d*)\\D?");
-                Matcher m3 = p3.matcher(zonePlus);
-                Pattern p4 = Pattern.compile("(\\S+)\\s*-");
-                Matcher m4 = p4.matcher(zonePlus);
                 int amount = 0;
                 String zone = "";
                 int changer = 0;
                 if (m1.find()) {
-                    amount = Integer.valueOf(m1.group(1));
+                    amount = Integer.valueOf(m1.group(2));
                     changer = 1;
                 }
                 if (m2.find()) {
                     zone = m2.group(1).toUpperCase();
-                }
-                if (m3.find()) {
-                    changer = 2;
-                    amount = Integer.valueOf(m3.group(1));
-                }
-                if (m4.find()) {
-                    zone = m4.group(1).toUpperCase();
                 }
                 if (changer == 1) {
                     DateTime time = DateTime.parse(JsonParser.parseString(
@@ -74,8 +63,8 @@ public class Time {
         }
     }
 
-    public static boolean sameName(ArrayList<TimeZones> list, TimeZones elt) {
-        for (TimeZones t : list) {
+    public static boolean sameName(ArrayList<TimeZoneElement> list, TimeZoneElement elt) {
+        for (TimeZoneElement t : list) {
             if (t.getName().equals(elt.getName())) {
                 return true;
             }
@@ -83,14 +72,14 @@ public class Time {
         return false;
     }
 
-    public static ArrayList<TimeZones> getTimeZones() throws IOException {
-        ArrayList<TimeZones> list = new ArrayList<>();
+    public static ArrayList<TimeZoneElement> getTimeZones() throws IOException {
+        ArrayList<TimeZoneElement> list = new ArrayList<>();
         Document doc = Jsoup.connect("https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations").get();
         Elements table = doc.getElementsByTag("td");
 
         for (Element e : table) {
             if (e.text().length() >= 3 && e.text().length() <= 5) {
-                TimeZones t = new TimeZones(e.text(), e.nextElementSibling().nextElementSibling().text());
+                TimeZoneElement t = new TimeZoneElement(e.text(), e.nextElementSibling().nextElementSibling().text());
                 if (t.getOffset().length() > 9) {
                     t.setOffset(t.getOffset().substring(0, 9));
                 }
@@ -101,5 +90,6 @@ public class Time {
         }
         return list;
     }
+    
 
 }
