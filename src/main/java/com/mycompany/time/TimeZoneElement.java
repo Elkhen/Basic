@@ -2,24 +2,35 @@
 package com.mycompany.time;
 
 public class TimeZoneElement {
-    private String name;
+    private String timezone;
     private String offset;
+    private String sign;
     
     public TimeZoneElement(String name, String offset) {
-        this.name = name;
-        this.offset = offset;
+        this(name, offset, "");
     }
     
-    public String getName() {
-        return this.name;
+    public TimeZoneElement(String name, String offset, String sign) {
+        this.timezone = name;
+        this.offset = offset;
+        this.sign = sign;
+    }
+    
+    public String getTimezone() {
+        return this.timezone;
     }
     
     public String getOffset() {
         return this.offset;
     }
     
+    public String getSign() {
+        return this.sign;
+    }
+    
+    
     public String toString() {
-        return "Time zone's name is " + this.name + " and it's offset is " + this.offset;
+        return "Time zone's name is " + this.timezone + " and it's offset is " + this.offset;
     }
     
     public void setOffset(String offset) {

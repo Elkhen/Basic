@@ -6,6 +6,7 @@ import java.util.regex.*;
 public class TimeZoneSeparator {
 
     private String timezoneString;
+    private TimeZoneElement timezoneElement;
     private String timezone;
     private String offset;
     private String sign;
@@ -23,13 +24,10 @@ public class TimeZoneSeparator {
         if (m2.find()) {
             this.timezone = m2.group(1);
         }
+        this.timezoneElement = new TimeZoneElement(this.timezone, this.offset);
     }
     
-    public String getTimezone() {
-        return this.timezone;
-    }
-    
-    public String getOffset() {
-        return this.offset;
+    public TimeZoneElement getTimeZoneElement() {
+        return this.timezoneElement;
     }
 }

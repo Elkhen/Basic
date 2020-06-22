@@ -63,33 +63,4 @@ public class Time {
         }
     }
 
-    public static boolean sameName(ArrayList<TimeZoneElement> list, TimeZoneElement elt) {
-        for (TimeZoneElement t : list) {
-            if (t.getName().equals(elt.getName())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static ArrayList<TimeZoneElement> getTimeZones() throws IOException {
-        ArrayList<TimeZoneElement> list = new ArrayList<>();
-        Document doc = Jsoup.connect("https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations").get();
-        Elements table = doc.getElementsByTag("td");
-
-        for (Element e : table) {
-            if (e.text().length() >= 3 && e.text().length() <= 5) {
-                TimeZoneElement t = new TimeZoneElement(e.text(), e.nextElementSibling().nextElementSibling().text());
-                if (t.getOffset().length() > 9) {
-                    t.setOffset(t.getOffset().substring(0, 9));
-                }
-                if (!sameName(list, t)) {
-                    list.add(t);
-                }
-            }
-        }
-        return list;
-    }
-    
-
 }
